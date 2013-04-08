@@ -1,4 +1,3 @@
-
 fc.applyAll = applyAll;
 
 
@@ -22,7 +21,11 @@ function _exclEndDay(end, allDay) {
 
 
 function segCmp(a, b) {
-	return (b.msLength - a.msLength) * 100 + (a.event.start - b.event.start);
+	  // Enable priority on events, put a higher number go get higher priority.
+	  // If no integer is given, order by time as before.
+    var priorityDiff = ((a.event.priority || 0) < (b.event.priority || 0)) ? 1 : ((b.event.priority || 0) < (a.event.priority || 0)) ? -1 : 0;
+    if(priorityDiff != 0) return priorityDiff;
+    return (b.msLength - a.msLength) * 100 + (a.event.start - b.event.start);
 }
 
 
